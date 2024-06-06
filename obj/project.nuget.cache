@@ -1,0 +1,12 @@
+{
+  "version": 2,
+  "dgSpecHash": "CaB+BWf+3ctSR8GlMWQ6OPyrCNHTPY6YM90j01Vrnvjqjt7FG1zTybdc96/WUqBxbSaMkPzcN5ZDrOZdbhV1xw==",
+  "success": true,
+  "projectFilePath": "/home/otto/RiderProjects/RockExchange/RockExchange/RockExchange.csproj",
+  "expectedPackageFiles": [
+    "/home/otto/.nuget/packages/raylib-cs/6.0.0/raylib-cs.6.0.0.nupkg.sha512",
+    "/home/otto/.nuget/packages/system.numerics.vectors/4.5.0/system.numerics.vectors.4.5.0.nupkg.sha512",
+    "/home/otto/.nuget/packages/microsoft.aspnetcore.app.ref/8.0.5/microsoft.aspnetcore.app.ref.8.0.5.nupkg.sha512"
+  ],
+  "logs": []
+}
