@@ -6,7 +6,7 @@ public class Rock
     
     public Rock()
     {
-        RockKind[] values = new[] { RockKind.Blue, RockKind.Cyan, RockKind.Green, RockKind.Lime, RockKind.Navy };
-        Kind = (RockKind)values.GetValue(Random.Shared.Next(values.Length));
+        RockKind[] values = [RockKind.Green, RockKind.Purple, RockKind.Blue, RockKind.Red, RockKind.Cyan];
+        Kind = (RockKind)(values.GetValue(Random.Shared.Next(values.Length)) ?? RockKind.Green);
     }
 }

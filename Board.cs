@@ -7,9 +7,10 @@ public class Board
 {
         private const int BoardSize = 7;
         private const int TileSize = 64;
-        private readonly Vector2 _boardOffset = new Vector2(64, 64);
+        private readonly Vector2 _boardOffset = new Vector2(256, 64);
         private bool _checked;
         public bool Alive = true;
+        public uint Exchanges = 0;
         public uint Score { get; private set; }
         private Rock?[,] _rocks = new Rock?[BoardSize, BoardSize];
         private Tuple<int, int> _hoveredRock = new Tuple<int, int>(0, 0);
@@ -34,7 +35,6 @@ public class Board
                 }
         }
 
-        // TODO URGENT: Rewrite this crap
         private bool NoMoreMoves()
         {
                 if (FindConnection() != null)
@@ -62,9 +62,9 @@ public class Board
                                                 _ => throw new ArgumentOutOfRangeException()
                                         };
 
-                                        if (Exchange(current, exchangee))
+                                        if (Exchange(current, exchangee, false, false))
                                         {
-                                                Exchange(exchangee, current, true);
+                                                Exchange(exchangee, current, true, false);
                                                 return false;
                                         }
                                 }
@@ -170,7 +170,7 @@ public class Board
         }
 
         // Swaps two different rocks. If the swap was successful, returns true, otherwise false
-        private bool Exchange(Tuple<int, int> first, Tuple<int, int> second, bool force = false)
+        private bool Exchange(Tuple<int, int> first, Tuple<int, int> second, bool force = false, bool count = true)
         {
                 // check that the tiles are in bounds
                 if (first.Item1 < 0 || first.Item1 >= BoardSize || first.Item2 < 0 || first.Item2 >= BoardSize ||
@@ -196,6 +196,11 @@ public class Board
                         return false;
                 }
 
+                if (count)
+                {
+                        Exchanges++;    
+                }
+                
                 return true;
         }
 
@@ -257,23 +262,36 @@ public class Board
                 }
         }
 
+        private void RemoveConnection()
+        {
+                List<Tuple<int, int>>? connection = FindConnection();
+                if (connection != null)
+                {
+                        // // Handle special rocks
+                        // switch (_rocks[connection[0].Item1, connection[0].Item2].Kind)
+                        // {
+                        //         case RockKind.Coin:
+                        //                 Score += 50;
+                        //                 break;
+                        // }
+                        
+                        // Remove every rock in the connection
+                        foreach (Tuple<int, int> tuple in connection)
+                        {
+                                _rocks[tuple.Item1, tuple.Item2] = null;
+                        }
+                        
+                        Score += (uint)connection.Count * 10;
+                }
+        }
+
         private void Check()
         {
                 while (true)
                 {
                         Rock?[,] before = _rocks;
 
-                        List<Tuple<int, int>>? connection = FindConnection();
-                        if (connection != null)
-                        {
-                                foreach (Tuple<int, int> tuple in connection)
-                                {
-                                        _rocks[tuple.Item1, tuple.Item2] = null;
-                                }
-
-                                Score += (uint)connection.Count * 10;
-                        }
-
+                        RemoveConnection();
                         Gravity();
 
                         if (NoMoreMoves())
@@ -337,17 +355,17 @@ public class Board
 
         private void DrawBackground()
         {
-                Raylib.DrawRectangle((int)_boardOffset.X, (int)_boardOffset.Y, 
-                        BoardSize * TileSize, BoardSize * TileSize, Color.Gray);
+                Raylib.DrawRectangleRounded(
+                        new Rectangle(_boardOffset.X, _boardOffset.Y, BoardSize * TileSize, BoardSize * TileSize), 0.05f, 4,
+                        GUI.BackgroundColor);
 
                 for (int x = 0; x < BoardSize; x++)
                 {
                         for (int y = 0; y < BoardSize; y++)
                         {
-                                if ((y*BoardSize + x) % 2 == 0)
+                                if ((x + y * BoardSize) % 2 == 0)
                                 {
-                                        Raylib.DrawRectangle((int)_boardOffset.X + x * TileSize, (int)_boardOffset.Y + y * TileSize, 
-                                                TileSize, TileSize, Color.LightGray);
+                                        Raylib.DrawRectangleRounded(new Rectangle(_boardOffset.X + x*TileSize, _boardOffset.Y + y*TileSize, TileSize, TileSize), 0.3f, 4, GUI.BackgroundColorAlt);
                                 }
                         }
                 }
@@ -372,16 +390,6 @@ public class Board
                                 circlePosition.X += (float)TileSize / 2;
                                 circlePosition.Y += (float)TileSize / 2;
 
-                                
-                                // if (connection != null && connection.Contains(new Tuple<int, int>(x, y)))
-                                // {
-                                //         Raylib.DrawCircleLinesV(circlePosition, TileSize/2, Color.Black);
-                                //         Raylib.DrawCircleLinesV(circlePosition, TileSize/2 - 1, Color.Black);
-                                //         Raylib.DrawCircleLinesV(circlePosition, TileSize/2 - 2, Color.Black);
-                                //         Raylib.DrawCircleLinesV(circlePosition, TileSize/2 - 3, Color.Black);
-                                // }
-
-                                Rectangle rec = new Rectangle(position, TileSize, TileSize);
                                 Color? hoverColor = null;
                                 if (_hoveredRock.Item1 == x && _hoveredRock.Item2 == y)
                                 {

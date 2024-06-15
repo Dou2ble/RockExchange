@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RockExchange")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+1a898c354c48c2179a5f5a5fb4f2891d259a2212")]
 [assembly: System.Reflection.AssemblyProductAttribute("RockExchange")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RockExchange")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -13,22 +13,17 @@ public enum RockKind
     Blue,
     Cyan,
     Green,
-    Lime,
-    Navy,
-    Orange,
-    Purple,
     Red,
-    Violet,
+    Purple,
     Yellow,
     
     // Special rocks
-    Bag,
-    Coin,
-    Dark,
-    Potion,
-    Stone,
-    Horizontal,
-    Vertical,
-    Perpendicular
-    
+    // Bag,
+    // Coin,
+    // Dark,
+    // Potion,
+    // Stone,
+    // Horizontal,
+    // Vertical,
+    // Perpendicular
 }

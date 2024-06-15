@@ -9,13 +9,17 @@ class Program
     {
             Raylib.InitWindow(1280, 720, "Rock Exchange");
 
-            Image icon = Raylib.LoadImage("assets/textures/lime-rock.png");
+            // Load window icon
+            Image icon = Raylib.LoadImage("assets/textures/icon.png");
             unsafe
             {
                 Raylib.ImageFormat(&icon, PixelFormat.UncompressedR8G8B8);
             }
             Raylib.SetWindowIcon(icon);
             Raylib.UnloadImage(icon);
+            
+            // Don't close the game using escape
+            Raylib.SetExitKey(KeyboardKey.Null);
             
             Raylib.SetTargetFPS(60);
 

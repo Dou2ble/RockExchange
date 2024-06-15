@@ -12,31 +12,11 @@ public class Assets
 
     private Assets()
     {
-        // Private constructor to prevent instantiation
-        
-        // Load backgrounds
-        Backgrounds.Add(Time.Day, Raylib.LoadTexture("assets/textures/day-background.png"));
-        Backgrounds.Add(Time.Night, Raylib.LoadTexture("assets/textures/night-background.png"));
-        
-        // Load rock textures
-        Rocks.Add(RockKind.Bag, Raylib.LoadTexture("assets/textures/bag-rock.png"));
-        Rocks.Add(RockKind.Blue, Raylib.LoadTexture("assets/textures/blue-rock.png"));
-        Rocks.Add(RockKind.Coin, Raylib.LoadTexture("assets/textures/coin-rock.png"));
-        Rocks.Add(RockKind.Cyan, Raylib.LoadTexture("assets/textures/cyan-rock.png"));
-        Rocks.Add(RockKind.Dark, Raylib.LoadTexture("assets/textures/dark-rock.png"));
-        Rocks.Add(RockKind.Green, Raylib.LoadTexture("assets/textures/green-rock.png"));
-        Rocks.Add(RockKind.Lime, Raylib.LoadTexture("assets/textures/lime-rock.png"));
-        Rocks.Add(RockKind.Horizontal, Raylib.LoadTexture("assets/textures/map-horizontal-rock.png"));
-        Rocks.Add(RockKind.Perpendicular, Raylib.LoadTexture("assets/textures/map-perpendicular-rock.png"));
-        Rocks.Add(RockKind.Vertical, Raylib.LoadTexture("assets/textures/map-vertical-rock.png"));
-        Rocks.Add(RockKind.Navy, Raylib.LoadTexture("assets/textures/navy-rock.png"));
-        Rocks.Add(RockKind.Orange, Raylib.LoadTexture("assets/textures/orange-rock.png"));
-        Rocks.Add(RockKind.Potion, Raylib.LoadTexture("assets/textures/potion-rock.png"));
-        Rocks.Add(RockKind.Purple, Raylib.LoadTexture("assets/textures/purple-rock.png"));
-        Rocks.Add(RockKind.Red, Raylib.LoadTexture("assets/textures/red-rock.png"));
-        Rocks.Add(RockKind.Stone, Raylib.LoadTexture("assets/textures/stone-rock.png"));
-        Rocks.Add(RockKind.Violet, Raylib.LoadTexture("assets/textures/violet-rock.png"));
-        Rocks.Add(RockKind.Yellow, Raylib.LoadTexture("assets/textures/yellow-rock.png"));
+        foreach (RockKind kind in Enum.GetValues(typeof(RockKind)))
+        {
+            // ReSharper disable once NullableWarningSuppressionIsUsed
+            Rocks.Add(kind, Raylib.LoadTexture($"assets/textures/{Enum.GetName(kind)!.ToLower()}-rock.png"));  
+        }
         
         foreach (KeyValuePair<RockKind, Texture2D> rock in Rocks)
         {
@@ -83,14 +63,15 @@ public class Assets
         }
     }
     
-    public static void Reinstantiate()
-    {
-        _instance = new Assets();
-    }
-    
     
     
     public Dictionary<RockKind, Texture2D> Rocks = new();
     public Dictionary<RockKind, Texture2D> HoverRocks = new();
-    public Dictionary<Time, Texture2D> Backgrounds = new();
+    public Texture2D Icon = Raylib.LoadTexture("assets/textures/icon.png");
+    public Texture2D Background = Raylib.LoadTexture("assets/textures/background@720.png");
+    public const int FontSize = 28;
+    public const int FontSizeHeader = 64;
+    public Font Font = Raylib.LoadFontEx("assets/fonts/LobsterTwo-Regular.ttf", FontSize, null, 0);
+    public Font FontBold = Raylib.LoadFontEx("assets/fonts/LobsterTwo-Bold.ttf", FontSize, null, 0);
+    public Font FontHeader = Raylib.LoadFontEx("assets/fonts/LobsterTwo-Bold.ttf", FontSizeHeader, null, 0);
 }
